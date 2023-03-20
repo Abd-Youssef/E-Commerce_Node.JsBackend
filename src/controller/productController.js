@@ -1,9 +1,11 @@
 const { Product } = require("../model/product");
 
+
 function addProduct(req, res,next) {
   let { name, description, price, category, stock } = req.body;
   price=Number(price);
   stock=Number(stock);
+  console.log(req.body);
   if (
     name &&
     description &&
@@ -19,6 +21,10 @@ function addProduct(req, res,next) {
       price, // equivalent a price :price quand on a le méme nom de variable dans la bd
       category,
       stock,
+      image:{
+        data :req.file.filename,
+        contentType:'image/png'
+      },
     });
     product.save().then(()=>{
         res.status(201).json({ status: 201 , message:"product Created" });
@@ -36,9 +42,9 @@ function updateProduct(req,res,next) {
         description &&
         price &&
         category &&
-        stock &&
-        typeof price === "number" &&
-        typeof stock === "number"
+        stock 
+        // &&typeof price === "number" &&
+        // typeof stock === "number"
       ) {
         Product.findByIdAndUpdate({_id:req.params.id},{
             $set: {
@@ -47,6 +53,10 @@ function updateProduct(req,res,next) {
                 price :price, 
                 category:category,
                 stock:stock,
+                image:{
+                  data :req.file.filename,
+                  contentType:'image/png'
+                },
             },
           })
         .then((product)=>{
