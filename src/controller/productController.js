@@ -2,7 +2,7 @@ const { Product } = require("../model/product");
 
 
 function addProduct(req, res,next) {
-  let { name, description, price, category, stock } = req.body;
+  let { name, description, price, category, stock ,imageURL } = req.body;
   price=Number(price);
   stock=Number(stock);
   console.log(req.body);
@@ -12,18 +12,21 @@ function addProduct(req, res,next) {
     price &&
     category &&
     stock &&
+    imageURL &&
     typeof price === "number" &&
     typeof stock === "number"
   ) {
-    const product = new Product({
+    const product = new Product({ 
       name: name,
       description: description,
       price, // equivalent a price :price quand on a le méme nom de variable dans la bd
       category,
       stock,
+      imageURL,
       image:{
         data :req.file.filename,
-        contentType:'image/png'
+        url : imageURL ,
+        contentType:'image/png' 
       },
     });
     product.save().then(()=>{
@@ -125,6 +128,3 @@ exports.getProductByid = getProductByid;
 exports.updateProduct = updateProduct;
 exports.getAllProduct = getAllProduct; 
 exports.getAllCategories = getAllCategories; 
-
-
-

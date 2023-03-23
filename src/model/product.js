@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { object, string } = require("prop-types");
 
 const productSchema = mongoose.Schema({
   name: {
@@ -21,6 +22,9 @@ const productSchema = mongoose.Schema({
     type: Number,
     required: true,
   },
-  image: { data: Buffer, contentType: String, },
-});
+  imageUrl : {
+    type: Object,
+  },
+  image: { data: Buffer,  url : String ,contentType: String, },
+}); 
 module.exports.Product = mongoose.model("product", productSchema);
